@@ -5,6 +5,7 @@
 package com.mailup;
 
 import org.apache.commons.codec.binary.Base64;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import javax.net.ssl.*;
@@ -60,11 +61,10 @@ public class MailUpClient {
         loadToken(request);
     }
 
-    private void loadToken(final HttpServletRequest request) {
+    private void loadToken(final @NotNull HttpServletRequest request) {
         final Cookie[] cookies = request.getCookies();
         if (cookies != null) {
-            for (int i = 0; i < cookies.length; i++) {
-                final Cookie cookie = cookies[i];
+            for (final Cookie cookie : cookies) {
                 if ("access_token".equals(cookie.getName())) {
                     accessToken = cookie.getValue();
                 }
@@ -80,7 +80,7 @@ public class MailUpClient {
     }
 
     private String callMethod(final String url, final String verb, final String body, final String contentType, final boolean refresh, final HttpServletResponse response) throws MailUpException {
-        String resultStr = "";
+        final String resultStr;
         HttpsURLConnection con = null;
         int statusCode = 0;
         try {
@@ -92,7 +92,7 @@ public class MailUpClient {
             con.setRequestProperty("Accept", contentType);
             con.setRequestProperty("Authorization", "Bearer " + accessToken);
 
-            if (body != null && !"".equals(body)) {
+            if (body != null && !body.isEmpty()) {
                 con.setDoOutput(true);
                 final DataOutputStream wr = new DataOutputStream(con.getOutputStream());
                 wr.writeBytes(body);
@@ -114,7 +114,7 @@ public class MailUpClient {
 
             final BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
             String inputLine;
-            final StringBuffer result = new StringBuffer();
+            final StringBuilder result = new StringBuilder();
 
             while ((inputLine = in.readLine()) != null) {
                 result.append(inputLine);
@@ -124,6 +124,7 @@ public class MailUpClient {
             resultStr = result.toString();
         } catch (final IOException iex) {
             try {
+                assert con != null;
                 statusCode = con.getResponseCode();
                 if (statusCode == 401 && refresh) {
                     refreshAccessToken(response);
@@ -356,12 +357,7 @@ public class MailUpClient {
         HttpsURLConnection.setDefaultSSLSocketFactory(ctx.getSocketFactory());
 
         // Create all-trusting host name verifier
-        final HostnameVerifier allHostsValid = new HostnameVerifier() {
-            @Override
-            public boolean verify(final String hostname, final SSLSession session) {
-                return true;
-            }
-        };
+        final HostnameVerifier allHostsValid = (hostname, session) -> true;
 
         // Install the all-trusting host verifier
         HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);

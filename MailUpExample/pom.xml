@@ -5,10 +5,9 @@
         <groupId>mailup.com</groupId>
         <artifactId>rest-api-sample-parent</artifactId>
         <version>1.0.0-RELEASE</version>
-        <relativePath>..</relativePath>
+        <relativePath>../</relativePath>
     </parent>
     <packaging>war</packaging>
-    <groupId>mailup.com</groupId>
     <artifactId>rest-api-sample</artifactId>
     <dependencies>
         <dependency>
@@ -37,6 +36,12 @@
         <dependency>
             <groupId>jakarta.servlet.jsp.jstl</groupId>
             <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>24.0.0</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
     <build>
