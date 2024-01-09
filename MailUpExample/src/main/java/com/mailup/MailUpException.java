@@ -5,11 +5,15 @@
 package com.mailup;
 
 /**
- *
  * @author sergeiinyushkin
  */
 public class MailUpException extends Exception {
     private int statusCode;
+
+    public MailUpException(final int statusCode, final String message) {
+        super(message);
+        setStatusCode(statusCode);
+    }
 
     /**
      * @return the statusCode
@@ -21,14 +25,7 @@ public class MailUpException extends Exception {
     /**
      * @param statusCode the statusCode to set
      */
-    public void setStatusCode(int statusCode) {
+    public void setStatusCode(final int statusCode) {
         this.statusCode = statusCode;
-    }
-    
-
-    public MailUpException(int statusCode, String message)
-    {
-        super(message);
-        setStatusCode(statusCode);
     }
 }
