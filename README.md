@@ -5,7 +5,7 @@ Java REST API integration/implementation samples
 Requirements
 ------------------------
 
-* Java Netbeans EE edition
+* Any Java IDE of your choice (eclipse, intellj, vs-code, ...)
 * A valid MailUp account ( trial accounts allowed )
 * Your own API application keys
 
@@ -38,10 +38,11 @@ find the path of the config file here:
 
 ```
 rest-samples-java/MailUpExample/src/main/resources/mailup.properties
-```   
+```
 
 Debugging tool
 ------------------------
+Run application with `mvn spring-boot:run`
 
 
 Notes
@@ -51,3 +52,6 @@ to [MailUp REST API Keys and endpoints](http://help.mailup.com/display/mailupapi
 
 Revision history
 ------------------------
+
+* Jan 2024 Build with Apache Maven
+* Jan 2024 Spring-boot porting
